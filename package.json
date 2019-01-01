@@ -56,7 +56,7 @@
   },
   "scripts": {
     "copy": "copyfiles -f ./index.html ./dist",
-    "start": "webpack-dev-server --hot --progress --colors",
+    "start": "webpack-dev-server --hot --progress --colors --port 8080",
     "build": "npm run copy && webpack",
     "build-dev": "npm run copy && webpack --config webpack.dev.config.js",
     "test": "node scripts/test.js --env=jsdom"

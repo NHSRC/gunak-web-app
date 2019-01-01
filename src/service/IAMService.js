@@ -4,7 +4,7 @@ import GetCurrentUserResponse from "./data/GetCurrentUserResponse";
 class IAMService {
     static login(email, password) {
         let obj = {email: email, password: password};
-        return RestClient.post('/login', obj);
+        return RestClient.post('/api/login', obj);
     }
 
     static getCurrentUser() {
