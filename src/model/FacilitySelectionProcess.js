@@ -212,12 +212,9 @@ class FacilitySelectionProcess {
 
     static uploadErrorMessage(facilitySelectionProcess) {
         if (facilitySelectionProcess.error)
-            return JSON.stringify(facilitySelectionProcess.error);
-        else {
-            let errorMessage = '';
-            facilitySelectionProcess.assessmentUploadResponse["checkpointInErrors"].forEach((checkpointInError) => errorMessage += `${checkpointInError["checkpoint"]} not found in ${checkpointInError["measurableElementReference"]}\n`);
-            return errorMessage;
-        }
+            return facilitySelectionProcess.error;
+
+        return facilitySelectionProcess.assessmentUploadResponse["checkpointInErrors"];
     }
 
     static assessmentUploadMessage(facilitySelectionProcess) {

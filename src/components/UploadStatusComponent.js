@@ -21,20 +21,39 @@ export default class UploadStatusComponent extends BaseComponent {
     }
 
     wrapInModal(title, body) {
-        return <Modal.Dialog bsSize="large">
-            <Modal.Header>
-                <Modal.Title>{title}</Modal.Title>
-            </Modal.Header>
-            {body}
-            <Modal.Footer>
-                <Button bsStyle="primary" onClick={() => this.props.confirmUpload()}>Close</Button>
-            </Modal.Footer>
-        </Modal.Dialog>;
+        return <Modal.Dialog>
+                <Modal.Header>
+                    <Modal.Title>{title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>{ body }</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="primary" onClick={() => this.props.confirmUpload()}>Close</Button>
+                </Modal.Footer>
+            </Modal.Dialog>;
+    }
+
+    renderUploadErrorMessage(errorMsg) {
+        if (Array.isArray(errorMsg)) {
+            return <ul>{
+                errorMsg.map((checkpointInError) =>
+                    <li>
+                        { `"${checkpointInError["checkpoint"]}"` }
+                        <span style={{color: 'red'}}>
+                        {` not found in ${checkpointInError["measurableElementReference"]}`}
+                    </span>
+                    </li>
+                )
+            }</ul>;
+        } else if (errorMsg instanceof Object)
+            return <div>{ JSON.stringify(errorMsg, null, '  ') }</div>;
     }
 
     render() {
         return FacilitySelectionProcess.uploadFailed(this.props.state) ?
-            this.wrapInModal('Error in uploading', <p color={'red'}>{FacilitySelectionProcess.uploadErrorMessage(this.props.state)}</p>)
+            this.wrapInModal('Error in uploading',
+                this.renderUploadErrorMessage(FacilitySelectionProcess.uploadErrorMessage(this.props.state)))
             :
             this.renderUploadView();
     }
